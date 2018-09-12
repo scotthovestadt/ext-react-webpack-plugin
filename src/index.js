@@ -489,22 +489,18 @@ module.exports = class ExtReactWebpackPlugin {
     }
 
     if (sdk) {
-      //compilation.errors.push( new Error(cmdErrors.join("")) )
-      throw new Error(`${chalk.red('SDK parameter no longer supported with ext-react-webpack-plugin')}  - use the Ext JS npm packages instead`);
-
-      // if (!fs.existsSync(sdk)) {
-      //     throw new Error(`No SDK found at ${path.resolve(sdk)}.  Did you for get to link/copy your Ext JS SDK to that location?`);
-      // } else {
-      //     //mjg this needed? this._addExtReactPackage(build)
-      // }
+      if (!fs.existsSync(sdk)) {
+          throw new Error(`No SDK found at ${path.resolve(sdk)}.  Did you for get to link/copy your Ext JS SDK to that location?`);
+      } else {
+          this._addReactorPackage(build)
+      }
     } else {
       try {
-        build.sdk = path.dirname(resolve('@sencha/ext', { basedir: process.cwd() }))
-        build.packageDirs = [...(build.packageDirs || []), path.dirname(build.sdk)];
-        build.packages = build.packages || this._findPackages(build.sdk);
+          build.sdk = path.dirname(resolve('@extjs/ext-react', { basedir: process.cwd() }))
+          build.packageDirs = [...(build.packageDirs || []), path.dirname(build.sdk)];
+          build.packages = build.packages || this._findPackages(build.sdk);
       } catch (e) {
-        //throw new Error(`@sencha/ext-modern not found.  You can install it with "npm install --save @sencha/ext-modern" or, if you have a local copy of the SDK, specify the path to it using the "sdk" option in build "${name}."`);
-        throw new Error(`@sencha/ext not found.  You can install it with "npm install --save @sencha/ext`);
+          throw new Error(`@extjs/ext-react not found.  You can install it with "npm install --save @extjs/ext-react" or, if you have a local copy of the SDK, specify the path to it using the "sdk" option in build "${name}."`);
       }
     }
   }
@@ -553,9 +549,14 @@ module.exports = class ExtReactWebpackPlugin {
    * @return {String}
    */
   _getSenchCmdPath() {
-    try { return require('@sencha/cmd') } 
-    catch (e) { return 'sencha' }
-  }
+    try {
+        // use @extjs/sencha-cmd from node_modules
+        return require('@extjs/sencha-cmd');
+    } catch (e) {
+        // attempt to use globally installed Sencha Cmd
+        return 'sencha';
+    }
+}
 }
 
 

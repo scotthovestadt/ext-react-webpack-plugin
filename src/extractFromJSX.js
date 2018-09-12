@@ -78,7 +78,7 @@ module.exports = function extractFromJSX(js, compilation, module, reactVersion) 
                   for (let spec of node.specifiers) {
                       types[spec.local.name] = { xtype: toXtype(spec.imported.name) };
                   }
-              } else if (node.source.value === `@sencha/ext-react${reactVersion}`) {
+              } else if (node.source.value === `@extjs/reactor`) {
                   // identify local names of reactify based on import { reactify as foo } from '@sencha/ext-react';
                   for (let spec of node.specifiers) {
                       if (spec.imported.name === 'reactify') {
