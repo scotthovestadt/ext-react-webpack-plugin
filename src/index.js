@@ -505,6 +505,24 @@ module.exports = class ExtReactWebpackPlugin {
     }
   }
 
+  /**
+   * Adds the reactor package if present and the toolkit is modern
+   * @param {Object} build 
+   */
+  _addReactorPackage(build) {
+    if (build.toolkit === 'classic') return;
+
+    if (fs.existsSync(path.join(build.sdk, 'ext', 'modern', 'reactor')) ||  // repo
+        fs.existsSync(path.join(build.sdk, 'modern', 'reactor'))) { // production build
+
+        if (!build.packages) {
+            build.packages = [];
+        }
+
+        build.packages.push('reactor');
+    }
+}
+
   // /**
   //  * Adds the ExtReact package if present and the toolkit is modern
   //  * @param {Object} build 
