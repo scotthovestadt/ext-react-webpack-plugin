@@ -288,11 +288,11 @@ module.exports = class ExtReactWebpackPlugin {
     await promise
  
     if (this.watch && this.count == 0 && cmdErrors.length == 0) {
-      var url = 'http://localhost:' + this.port
-      readline.cursorTo(process.stdout, 0);console.log(app + 'ext-react-emit - open browser at ' + url)
-      this.count++
-      const opn = require('opn')
-      opn(url)
+      // var url = 'http://localhost:' + this.port
+      // readline.cursorTo(process.stdout, 0);console.log(app + 'ext-react-emit - open browser at ' + url)
+      // this.count++
+      // const opn = require('opn')
+      // opn(url)
     }
     if (callback != null){ callback() }
   }
@@ -327,7 +327,7 @@ module.exports = class ExtReactWebpackPlugin {
         }
       }
 
-      const userPackages = path.join('.', 'ext-react', 'packages')
+      const userPackages = path.join('.', output, 'packages')
       if (fs.existsSync(userPackages)) {
         readline.cursorTo(process.stdout, 0);console.log(app + 'Adding Package Folder: ' + userPackages)
         packageDirs.push(userPackages)
